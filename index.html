@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaurav Tour & Travel</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{font-family:Arial,Helvetica,sans-serif;color:#333;}
+
+        /* NAVBAR */
+        .nav{position:fixed;top:0;width:100%;background:rgba(0,0,0,0.9);padding:15px 0;z-index:1000;}
+        .nav-box{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:0 20px;}
+        .logo{color:#fff;font-size:22px;font-weight:bold;text-decoration:none;}
+        .logo span{color:#f0a500;}
+        .nav-links{display:flex;list-style:none;gap:25px;}
+        .nav-links a{color:#ddd;text-decoration:none;font-size:14px;}
+        .nav-links a:hover{color:#f0a500;}
+        .menu-btn{display:none;background:none;border:none;color:#fff;font-size:28px;cursor:pointer;}
+
+        /* HERO */
+        .hero{min-height:100vh;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:100px 20px 60px;}
+        .hero h1{font-size:48px;margin-bottom:15px;line-height:1.2;}
+        .hero h1 span{color:#f0a500;}
+        .hero p{font-size:18px;margin-bottom:30px;opacity:0.85;max-width:600px;margin-left:auto;margin-right:auto;}
+        .hero-btn{display:inline-block;background:linear-gradient(135deg,#f0a500,#ff6b35);color:#fff;padding:15px 35px;border-radius:50px;text-decoration:none;font-weight:bold;font-size:16px;margin:5px;}
+        .hero-btn:hover{opacity:0.9;transform:translateY(-2px);}
+        .hero-btn2{background:transparent;border:2px solid #fff;}
+        .stats{display:flex;justify-content:center;gap:40px;margin-top:50px;flex-wrap:wrap;}
+        .stats div{text-align:center;}
+        .stats h3{font-size:32px;color:#f0a500;}
+        .stats p{font-size:12px;text-transform:uppercase;letter-spacing:1px;opacity:0.7;}
+
+        /* SECTION */
+        .section{padding:80px 20px;}
+        .section-gray{background:#f5f5f5;}
+        .section-dark{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;}
+        .container{max-width:1100px;margin:0 auto;}
+        .s-head{text-align:center;margin-bottom:50px;}
+        .s-head small{color:#f0a500;font-size:13px;text-transform:uppercase;letter-spacing:2px;font-weight:bold;}
+        .s-head h2{font-size:36px;color:#1a1a2e;margin-top:8px;}
+        .section-dark .s-head h2{color:#fff;}
+        .s-head p{color:#777;margin-top:10px;font-size:16px;}
+        .section-dark .s-head p{color:rgba(255,255,255,0.6);}
+
+        /* SERVICES */
+        .srv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:25px;}
+        .srv-card{background:#fff;padding:35px 25px;border-radius:16px;text-align:center;border:1px solid #eee;transition:0.3s;}
+        .srv-card:hover{transform:translateY(-8px);box-shadow:0 15px 40px rgba(0,0,0,0.08);}
+        .srv-card .icon{font-size:45px;margin-bottom:15px;}
+        .srv-card h3{font-size:18px;margin-bottom:8px;color:#1a1a2e;}
+        .srv-card p{font-size:14px;color:#888;line-height:1.6;}
+
+        /* DESTINATIONS */
+        .dest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:25px;}
+        .dest-card{border-radius:20px;overflow:hidden;position:relative;height:380px;cursor:pointer;transition:0.3s;}
+        .dest-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,0.15);}
+        .dest-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+        .dest-bg .emoji{font-size:80px;opacity:0.3;}
+        .dest-overlay{position:absolute;bottom:0;left:0;right:0;padding:25px;background:linear-gradient(transparent,rgba(0,0,0,0.8));color:#fff;}
+        .dest-overlay h3{font-size:22px;margin-bottom:3px;}
+        .dest-overlay .loc{font-size:13px;opacity:0.8;margin-bottom:10px;}
+        .dest-bottom{display:flex;justify-content:space-between;align-items:center;}
+        .dest-price{font-size:18px;font-weight:bold;}
+        .dest-badge{position:absolute;top:15px;right:15px;background:rgba(255,255,255,0.9);padding:5px 12px;border-radius:20px;font-size:13px;font-weight:bold;}
+        .d1 .dest-bg{background:linear-gradient(135deg,#667eea,#764ba2);}
+        .d2 .dest-bg{background:linear-gradient(135deg,#f093fb,#f5576c);}
+        .d3 .dest-bg{background:linear-gradient(135deg,#4facfe,#00f2fe);}
+        .d4 .dest-bg{background:linear-gradient(135deg,#43e97b,#38f9d7);}
+        .d5 .dest-bg{background:linear-gradient(135deg,#fa709a,#fee140);}
+        .d6 .dest-bg{background:linear-gradient(135deg,#a18cd1,#fbc2eb);}
+
+        /* PACKAGES */
+        .pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:30px;}
+        .pkg{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 5px 25px rgba(0,0,0,0.06);transition:0.3s;}
+        .pkg:hover{transform:translateY(-10px);box-shadow:0 20px 50px rgba(0,0,0,0.12);}
+        .pkg-top{padding:30px;color:#fff;}
+        .pkg:nth-child(1) .pkg-top{background:linear-gradient(135deg,#667eea,#764ba2);}
+        .pkg:nth-child(2) .pkg-top{background:linear-gradient(135deg,#f0a500,#ff6b35);}
+        .pkg:nth-child(3) .pkg-top{background:linear-gradient(135deg,#11998e,#38ef7d);}
+        .pkg-top small{background:rgba(255,255,255,0.2);padding:4px 14px;border-radius:20px;font-size:11px;text-transform:uppercase;}
+        .pkg-top h3{font-size:24px;margin-top:12px;}
+        .pkg-top p{opacity:0.9;font-size:14px;}
+        .pkg-price{float:right;margin-top:-45px;text-align:right;}
+        .pkg-price b{font-size:28px;display:block;}
+        .pkg-price span{font-size:11px;opacity:0.8;}
+        .pkg-body{padding:25px 30px;}
+        .pkg-body ul{list-style:none;margin-bottom:20px;}
+        .pkg-body li{padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:14px;color:#555;display:flex;align-items:center;gap:10px;}
+        .pkg-body li:last-child{border:none;}
+        .pkg-body .check{color:#38ef7d;font-weight:bold;font-size:16px;}
+        .pkg-btn{width:100%;padding:14px;border:2px solid #f0a500;background:transparent;color:#f0a500;border-radius:12px;font-size:15px;font-weight:bold;cursor:pointer;transition:0.3s;}
+        .pkg-btn:hover{background:#f0a500;color:#fff;}
+
+        /* WHY US */
+        .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px;}
+        .why-card{text-align:center;padding:25px;}
+        .why-card .icon{font-size:50px;margin-bottom:15px;}
+        .why-card h3{font-size:18px;color:#1a1a2e;margin-bottom:8px;}
+        .why-card p{color:#888;font-size:14px;}
+
+        /* REVIEWS */
+        .rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;}
+        .rev-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:30px;border-radius:20px;transition:0.3s;}
+        .rev-card:hover{background:rgba(255,255,255,0.1);transform:translateY(-5px);}
+        .rev-stars{color:#f0a500;font-size:16px;margin-bottom:12px;}
+        .rev-card .quote{font-size:14px;line-height:1.8;opacity:0.85;font-style:italic;margin-bottom:20px;}
+        .rev-author{display:flex;align-items:center;gap:12px;}
+        .rev-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f0a500,#ff6b35);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;color:#fff;}
+        .rev-name{font-weight:bold;font-size:15px;}
+        .rev-trip{font-size:12px;opacity:0.6;}
+
+        /* CTA */
+        .cta{background:linear-gradient(135deg,#f0a500,#ff6b35);text-align:center;padding:70px 20px;color:#fff;}
+        .cta h2{font-size:38px;margin-bottom:12px;}
+        .cta p{font-size:17px;margin-bottom:25px;opacity:0.95;max-width:550px;margin-left:auto;margin-right:auto;}
+        .cta-btn{display:inline-block;background:#fff;color:#f0a500;padding:15px 40px;border-radius:50px;font-weight:bold;font-size:16px;text-decoration:none;transition:0.3s;}
+        .cta-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.15);}
+
+        /* CONTACT */
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+        .contact-left h3{font-size:26px;color:#1a1a2e;margin-bottom:12px;}
+        .contact-left>p{color:#777;margin-bottom:25px;}
+        .c-item{display:flex;gap:15px;margin-bottom:22px;align-items:flex-start;}
+        .c-icon{width:50px;height:50px;background:rgba(240,165,0,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+        .c-item h4{font-size:15px;color:#1a1a2e;margin-bottom:3px;}
+        .c-item p{font-size:13px;color:#777;line-height:1.5;}
+        .c-form{background:#fff;padding:35px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.06);}
+        .f-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+        .f-group{margin-bottom:15px;}
+        .f-group label{display:block;font-size:13px;font-weight:bold;margin-bottom:5px;color:#444;}
+        .f-group input,.f-group select,.f-group textarea{width:100%;padding:12px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;font-family:Arial,sans-serif;}
+        .f-group input:focus,.f-group select:focus,.f-group textarea:focus{border-color:#f0a500;}
+        .f-group textarea{height:110px;resize:vertical;}
+        .f-btn{width:100%;padding:14px;background:linear-gradient(135deg,#f0a500,#ff6b35);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;transition:0.3s;}
+        .f-btn:hover{opacity:0.9;transform:translateY(-2px);}
+
+        /* FOOTER */
+        .footer{background:#0a0a1a;color:#999;padding:70px 20px 25px;}
+        .foot-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px;margin-bottom:40px;}
+        .footer .logo{font-size:20px;display:block;margin-bottom:12px;}
+        .footer p{font-size:13px;line-height:1.7;}
+        .footer h4{color:#fff;font-size:16px;margin-bottom:15px;}
+        .f-links{list-style:none;}
+        .f-links li{margin-bottom:10px;}
+        .f-links a{color:#999;text-decoration:none;font-size:13px;transition:0.3s;}
+        .f-links a:hover{color:#f0a500;}
+        .foot-bottom{max-width:1100px;margin:0 auto;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);text-align:center;font-size:13px;}
+        .foot-bottom span{color:#f0a500;}
+
+        /* WHATSAPP */
+        .wa{position:fixed;bottom:25px;right:25px;width:60px;height:60px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;text-decoration:none;box-shadow:0 5px 25px rgba(37,211,102,0.4);z-index:999;animation:pulse 2s infinite;}
+        @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,0.5);}70%{box-shadow:0 0 0 18px rgba(37,211,102,0);}100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}}
+
+        /* MOBILE */
+        @media(max-width:768px){
+            .nav-links{display:none;position:absolute;top:100%;left:0;width:100%;background:rgba(0,0,0,0.95);flex-direction:column;padding:15px;gap:10px;text-align:center;}
+            .nav-links.open{display:flex;}
+            .menu-btn{display:block;}
+            .hero h1{font-size:30px;}
+            .hero p{font-size:15px;}
+            .stats{gap:20px;}
+            .stats h3{font-size:24px;}
+            .s-head h2{font-size:28px;}
+            .contact-grid{grid-template-columns:1fr;}
+            .foot-grid{grid-template-columns:1fr 1fr;}
+            .f-row{grid-template-columns:1fr;}
+            .cta h2{font-size:28px;}
+        }
+        @media(max-width:480px){
+            .hero h1{font-size:24px;}
+            .stats{flex-direction:column;gap:10px;}
+            .foot-grid{grid-template-columns:1fr;}
+            .dest-grid{grid-template-columns:1fr;}
+            .pkg-grid{grid-template-columns:1fr;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+    <div class="nav-box">
+        <a href="#home" class="logo">✈️ KAURAV <span>TOURS</span></a>
+        <ul class="nav-links" id="menu">
+            <li><a href="#home" onclick="closeM()">Home</a></li>
+            <li><a href="#services" onclick="closeM()">Services</a></li>
+            <li><a href="#destinations" onclick="closeM()">Destinations</a></li>
+            <li><a href="#packages" onclick="closeM()">Packages</a></li>
+            <li><a href="#reviews" onclick="closeM()">Reviews</a></li>
+            <li><a href="#contact" onclick="closeM()">Contact</a></li>
+        </ul>
+        <button class="menu-btn" onclick="toggleM()">☰</button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div>
+        <h1>Explore The World With<br><span>Kaurav Tour & Travel</span></h1>
+        <p>Discover amazing destinations, create unforgettable memories, and travel in comfort with our expert tour packages.</p>
+        <div>
+            <a href="#packages" class="hero-btn">🗺️ View Packages</a>
+            <a href="#contact" class="hero-btn hero-btn2">📞 Book Now</a>
+        </div>
+        <div class="stats">
+            <div><h3>10,000+</h3><p>Happy Travelers</p></div>
+            <div><h3>50+</h3><p>Destinations</p></div>
+            <div><h3>100+</h3><p>Tour Packages</p></div>
+            <div><h3>8+</h3><p>Years Experience</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section section-gray" id="services">
+    <div class="container">
+        <div class="s-head">
+            <small>What We Offer</small>
+            <h2>Our Premium Services</h2>
+            <p>End-to-end travel solutions for a smooth journey</p>
+        </div>
+        <div class="srv-grid">
+            <div class="srv-card">
+                <div class="icon">🚌</div>
+                <h3>Bus Booking</h3>
+                <p>Luxury AC & Non-AC bus services with comfortable seating for group tours.</p>
+            </div>
+            <div class="srv-card">
+                <div class="icon">🚗</div>
+                <h3>Car Rental</h3>
+                <p>Sedan, SUV, Tempo Traveller with professional drivers for any trip.</p>
+            </div>
+            <div class="srv-card">
+                <div class="icon">✈️</div>
+                <h3>Flight Booking</h3>
+                <p>Domestic & international flights at best prices with instant booking.</p>
+            </div>
+            <div class="srv-card">
+                <div class="icon">🏨</div>
+                <h3>Hotel Booking</h3>
+                <p>Budget to 5-star hotels with best rates at every destination.</p>
+            </div>
+            <div class="srv-card">
+                <div class="icon">🗺️</div>
+                <h3>Tour Packages</h3>
+                <p>Customized packages with sightseeing, meals, and accommodation.</p>
+            </div>
+            <div class="srv-card">
+                <div class="icon">🎒</div>
+                <h3>Adventure Tours</h3>
+                <p>Trekking, rafting, paragliding, camping and wildlife safaris.</p>
+            </div>
+            <div class="srv-card">
+                <div class="icon">💒</div>
+                <h3>Honeymoon Special</h3>
+                <p>Romantic getaways with special packages for couples.</p>
+            </div>
+            <div class="srv-card">
+                <div class="icon">🛂</div>
+                <h3>Visa Assistance</h3>
+                <p>Complete visa processing for international destinations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section class="section" id="destinations">
+    <div class="container">
+        <div class="s-head">
+            <small>Explore Places</small>
+            <h2>Popular Destinations</h2>
+            <p>Handpicked destinations loved by travelers</p>
+        </div>
+        <div class="dest-grid">
+            <div class="dest-card d1">
+                <div class="dest-bg"><span class="emoji">🏔️</span></div>
+                <div class="dest-badge">⭐ 4.9</div>
+                <div class="dest-overlay">
+                    <h3>Manali</h3>
+                    <p class="loc">📍 Himachal Pradesh</p>
+                    <div class="dest-bottom">
+                        <span class="dest-price">₹4,999/person</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dest-card d2">
+                <div class="dest-bg"><span class="emoji">🏖️</span></div>
+                <div class="dest-badge">⭐ 4.8</div>
+                <div class="dest-overlay">
+                    <h3>Goa</h3>
+                    <p class="loc">📍 Beach Paradise</p>
+                    <div class="dest-bottom">
+                        <span class="dest-price">₹5,999/person</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dest-card d3">
+                <div class="dest-bg"><span class="emoji">🕌</span></div>
+                <div class="dest-badge">⭐ 4.7</div>
+                <div class="dest-overlay">
+                    <h3>Rajasthan</h3>
+                    <p class="loc">📍 Jaipur - Udaipur - Jodhpur</p>
+                    <div class="dest-bottom">
+                        <span class="dest-price">₹7,499/person</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dest-card d4">
+                <div class="dest-bg"><span class="emoji">🏝️</span></div>
+                <div class="dest-badge">⭐ 4.9</div>
+                <div class="dest-overlay">
+                    <h3>Kerala</h3>
+                    <p class="loc">📍 God's Own Country</p>
+                    <div class="dest-bottom">
+                        <span class="dest-price">₹8,999/person</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dest-card d5">
+                <div class="dest-bg"><span class="emoji">🏯</span></div>
+                <div class="dest-badge">⭐ 4.8</div>
+                <div class="dest-overlay">
+                    <h3>Kashmir</h3>
+                    <p class="loc">📍 Heaven on Earth</p>
+                    <div class="dest-bottom">
+                        <span class="dest-price">₹9,999/person</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dest-card d6">
+                <div class="dest-bg"><span class="emoji">🗻</span></div>
+                <div class="dest-badge">⭐ 4.7</div>
+                <div class="dest-overlay">
+                    <h3>Shimla</h3>
+                    <p class="loc">📍 Queen of Hills</p>
+                    <div class="dest-bottom">
+                        <span class="dest-price">₹3,999/person</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="section section-gray" id="packages">
+    <div class="container">
+        <div class="s-head">
+            <small>Best Value</small>
+            <h2>Tour Packages</h2>
+            <p>Choose the perfect package for your trip</p>
+        </div>
+        <div class="pkg-grid">
+            <div class="pkg">
+                <div class="pkg-top">
+                    <small>🌟 Budget Friendly</small>
+                    <div class="pkg-price"><b>₹4,999</b><span>per person</span></div>
+                    <h3>Silver Package</h3>
+                    <p>Shimla - Manali (4N/5D)</p>
+                </div>
+                <div class="pkg-body">
+                    <ul>
+                        <li><span class="check">✓</span> 4 Nights Hotel Stay</li>
+                        <li><span class="check">✓</span> Daily Breakfast</li>
+                        <li><span class="check">✓</span> AC Volvo Transport</li>
+                        <li><span class="check">✓</span> Sightseeing Included</li>
+                        <li><span class="check">✓</span> All Toll & Par
