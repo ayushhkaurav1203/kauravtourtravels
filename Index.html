@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaurav Tour & Travel</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:Arial,sans-serif;color:#333;overflow-x:hidden;}
+a{text-decoration:none;}
+
+.nav{position:fixed;top:0;width:100%;background:rgba(10,10,30,0.95);padding:12px 0;z-index:100;transition:0.3s;}
+.nav-box{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:0 20px;}
+.logo{color:#fff;font-size:18px;font-weight:bold;}
+.logo b{color:#f0a500;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-call{color:#f0a500;font-size:13px;font-weight:bold;}
+.menu-btn{background:none;border:2px solid #f0a500;color:#f0a500;padding:7px 15px;border-radius:8px;font-size:13px;font-weight:bold;cursor:pointer;transition:0.3s;}
+.menu-btn:hover{background:#f0a500;color:#fff;}
+
+.sidebar-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:200;display:none;}
+.sidebar-bg.open{display:block;}
+.sidebar{position:fixed;top:0;right:-300px;width:280px;height:100%;background:#1a1a2e;z-index:201;transition:right 0.3s;overflow-y:auto;}
+.sidebar.open{right:0;}
+.sb-top{padding:20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;}
+.sb-top span{color:#fff;font-size:16px;font-weight:bold;}
+.sb-top b{color:#f0a500;}
+.sb-x{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:5px;}
+.sb-links{list-style:none;padding:10px 0;}
+.sb-links a{display:block;padding:14px 25px;color:#ccc;font-size:15px;border-bottom:1px solid #222;transition:0.3s;}
+.sb-links a:hover{color:#f0a500;background:rgba(240,165,0,0.05);padding-left:30px;}
+.sb-info{padding:18px;background:rgba(240,165,0,0.08);margin:12px;border-radius:12px;}
+.sb-info a{display:block;color:#fff;font-size:14px;margin-bottom:8px;transition:0.3s;}
+.sb-info a:hover{color:#f0a500;}
+
+.hero{min-height:100vh;background:linear-gradient(135deg,#0a0a23,#1a1a3e,#0f3460);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:100px 20px 60px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;top:0;left:0;width:100%;height:100%;}
+.hc{position:absolute;border-radius:50%;opacity:0.04;animation:hcA 10s ease-in-out infinite;}
+.hc1{width:400px;height:400px;background:#f0a500;top:-100px;left:-100px;}
+.hc2{width:300px;height:300px;background:#ff6b35;bottom:-80px;right:-80px;animation-delay:3s;}
+.hc3{width:200px;height:200px;background:#4facfe;top:40%;left:60%;animation-delay:6s;}
+@keyframes hcA{0%,100%{transform:scale(1);opacity:0.04;}50%{transform:scale(1.3);opacity:0.08;}}
+.star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;animation:tw 3s ease-in-out infinite;}
+@keyframes tw{0%,100%{opacity:0.2;transform:scale(1);}50%{opacity:1;transform:scale(1.5);}}
+.hero-content{position:relative;z-index:2;max-width:750px;}
+.hero-badge{display:inline-block;background:rgba(240,165,0,0.12);border:1px solid rgba(240,165,0,0.25);color:#f0a500;padding:8px 20px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;animation:fadeD 0.8s ease;}
+.hero h1{font-size:42px;font-weight:900;margin-bottom:16px;line-height:1.15;animation:fadeU 0.8s ease 0.2s both;}
+.hero h1 b{background:linear-gradient(135deg,#f0a500,#ff6b35,#f0a500);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shine 3s linear infinite;}
+@keyframes shine{0%{background-position:0%;}100%{background-position:200%;}}
+.hero p{font-size:16px;opacity:0.8;margin-bottom:30px;animation:fadeU 0.8s ease 0.4s both;max-width:550px;margin-left:auto;margin-right:auto;line-height:1.6;}
+.hbtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeU 0.8s ease 0.6s both;}
+.hb{display:inline-flex;align-items:center;gap:6px;padding:14px 28px;border-radius:50px;font-size:14px;font-weight:700;transition:0.3s;border:none;cursor:pointer;font-family:inherit;}
+.hb1{background:linear-gradient(135deg,#f0a500,#ff6b35);color:#fff;box-shadow:0 6px 25px rgba(240,165,0,0.35);}
+.hb1:hover{transform:translateY(-3px);box-shadow:0 10px 35px rgba(240,165,0,0.5);}
+.hb2{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.3);}
+.hb2:hover{border-color:#fff;background:rgba(255,255,255,0.1);transform:translateY(-3px);}
+.stats{display:flex;justify-content:center;gap:35px;margin-top:50px;flex-wrap:wrap;animation:fadeU 0.8s ease 0.8s both;}
+.stat{text-align:center;}
+.stat h3{font-size:30px;font-weight:900;color:#f0a500;}
+.stat p{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:0.6;margin-top:3px;}
+@keyframes fadeU{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeD{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+
+.mq{background:linear-gradient(135deg,#f0a500,#ff6b35);padding:12px 0;overflow:hidden;white-space:nowrap;}
+.mq-text{display:inline-block;animation:mqa 22s linear infinite;color:#fff;font-weight:bold;font-size:13px;}
+@keyframes mqa{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+.section{padding:80px 20px;}
+.gbg{background:#f5f7fa;}
+.dbg{background:linear-gradient(135deg,#0a0a23,#1a1a3e);color:#fff;}
+.goldbg{background:linear-gradient(135deg,#f0a500,#ff6b35);color:#fff;}
+.container{max-width:1100px;margin:0 auto;}
+.sh{text-align:center;margin-bottom:50px;}
+.sh small{color:#f0a500;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;display:block;margin-bottom:8px;}
+.sh h2{font-size:34px;font-weight:800;}
+.dbg .sh h2{color:#fff;}
+.sh p{color:#888;font-size:14px;margin-top:8px;}
+.dbg .sh p{color:rgba(255,255,255,0.5);}
+
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;}
+
+.anim{opacity:0;transform:translateY(40px);transition:0.6s ease;}
+.anim.show{opacity:1;transform:translateY(0);}
+
+.srv{background:#fff;padding:30px 20px;border-radius:16px;text-align:center;border:1px solid #eee;transition:0.4s;position:relative;overflow:hidden;}
+.srv::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:linear-gradient(135deg,#f0a500,#ff6b35);transform:scaleX(0);transition:0.4s;}
+.srv:hover::after{transform:scaleX(1);}
+.srv:hover{transform:translateY(-8px);box-shadow:0 15px 40px rgba(0,0,0,0.07);}
+.srv .ic{width:65px;height:65px;background:rgba(240,165,0,0.08);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 14px;transition:0.3s;}
+.srv:hover .ic{background:linear-gradient(135deg,#f0a500,#ff6b35);transform:scale(1.1) rotate(5deg);}
+.srv h3{font-size:15px;color:#1a1a2e;margin-bottom:6px;font-weight:700;}
+.srv p{font-size:12px;color:#999;line-height:1.5;}
+
+.dest{border-radius:18px;overflow:hidden;position:relative;height:360px;transition:0.4s;cursor:pointer;}
+.dest:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,0.15);}
+.dest-bg{width:100%;height:100%;transition:0.5s;}
+.dest:hover .dest-bg{transform:scale(1.08);}
+.dest .em{font-size:70px;opacity:0.2;position:absolute;top:35%;left:50%;transform:translate(-50%,-50%);}
+.dtag{position:absolute;top:14px;left:14px;background:rgba(240,165,0,0.9);padding:4px 12px;border-radius:50px;font-size:10px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:1px;}
+.dbadge{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.9);padding:4px 10px;border-radius:50px;font-size:12px;font-weight:bold;}
+.dov{position:absolute;bottom:0;left:0;right:0;padding:24px 18px;background:linear-gradient(transparent,rgba(0,0,0,0.85));color:#fff;}
+.dov h3{font-size:20px;margin-bottom:3px;}
+.dov .loc{font-size:11px;opacity:0.7;margin-bottom:8px;}
+.dbot{display:flex;justify-content:space-between;align-items:center;}
+.dpr{font-size:17px;font-weight:bold;}
+.dlink{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;padding:6px 16px;border-radius:50px;font-size:11px;font-weight:bold;transition:0.3s;}
+.dlink:hover{background:#f0a500;border-color:#f0a500;}
+.d1 .dest-bg{background:linear-gradient(135deg,#667eea,#764ba2);}
+.d2 .dest-bg{background:linear-gradient(135deg,#f093fb,#f5576c);}
+.d3 .dest-bg{background:linear-gradient(135deg,#4facfe,#00f2fe);}
+.d4 .dest-bg{background:linear-gradient(135deg,#43e97b,#38f9d7);}
+.d5 .dest-bg{background:linear-gradient(135deg,#fa709a,#fee140);}
+.d6 .dest-bg{background:linear-gradient(135deg,#a18cd1,#fbc2eb);}
+
+.pkg{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 5px 25px rgba(0,0,0,0.05);transition:0.4s;}
+.pkg:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,0.1);}
+.ptop{padding:25px 22px;color:#fff;position:relative;}
+.pkg:nth-child(1) .ptop{background:linear-gradient(135deg,#667eea,#764ba2);}
+.pkg:nth-child(2) .ptop{background:linear-gradient(135deg,#f0a500,#ff6b35);}
+.pkg:nth-child(3) .ptop{background:linear-gradient(135deg,#11998e,#38ef7d);}
+.ptop small{background:rgba(255,255,255,0.2);padding:3px 12px;border-radius:50px;font-size:10px;}
+.ptop h3{font-size:20px;margin-top:10px;}
+.ptop p{font-size:12px;opacity:0.9;}
+.ptop .pprice{position:absolute;top:20px;right:20px;font-size:24px;font-weight:900;}
+.pbody{padding:22px;}
+.pbody ul{list-style:none;margin-bottom:18px;}
+.pbody li{padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;color:#666;}
+.pbody li:last-child{border:none;}
+.pbtn{width:100%;padding:13px;border:2px solid #f0a500;background:none;color:#f0a500;border-radius:10px;font-size:14px;font-weight:bold;cursor:pointer;transition:0.3s;font-family:inherit;}
+.pbtn:hover{background:#f0a500;color:#fff;}
+
+.why{text-align:center;padding:25px 15px;border-radius:16px;transition:0.3s;}
+.why:hover{background:#fff;box-shadow:0 15px 40px rgba(0,0,0,0.05);transform:translateY(-6px);}
+.why .wic{width:70px;height:70px;background:rgba(240,165,0,0.08);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;transition:0.3s;}
+.why:hover .wic{transform:rotate(8deg) scale(1.1);}
+.why h3{font-size:15px;color:#1a1a2e;margin-bottom:6px;font-weight:700;}
+.why p{font-size:12px;color:#999;}
+
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;}
+.gal{border-radius:14px;overflow:hidden;position:relative;height:220px;cursor:pointer;}
+.gal-bg{width:100%;height:100%;transition:0.4s;display:flex;align-items:center;justify-content:center;}
+.gal:hover .gal-bg{transform:scale(1.1);}
+.gal-em{font-size:50px;opacity:0.3;}
+.gal-lb{position:absolute;bottom:12px;left:12px;color:#fff;font-weight:bold;font-size:14px;text-shadow:0 2px 8px rgba(0,0,0,0.4);}
+.ga1 .gal-bg{background:linear-gradient(135deg,#667eea,#764ba2);}
+.ga2 .gal-bg{background:linear-gradient(135deg,#f093fb,#f5576c);}
+.ga3 .gal-bg{background:linear-gradient(135deg,#4facfe,#00f2fe);}
+.ga4 .gal-bg{background:linear-gradient(135deg,#43e97b,#38f9d7);}
+.ga5 .gal-bg{background:linear-gradient(135deg,#fa709a,#fee140);}
+.ga6 .gal-bg{background:linear-gradient(135deg,#a18cd1,#fbc2eb);}
+
+.rev{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:28px 22px;border-radius:18px;transition:0.4s;}
+.rev:hover{background:rgba(255,255,255,0.1);transform:translateY(-5px);}
+.rev .stars{color:#f0a500;margin-bottom:10px;font-size:14px;}
+.rev .qt{font-size:13px;opacity:0.8;font-style:italic;margin-bottom:16px;line-height:1.7;}
+.rauth{display:flex;align-items:center;gap:10px;}
+.rav{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f0a500,#ff6b35);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:17px;}
+.rname{font-weight:bold;font-size:14px;color:#fff;}
+.rtrip{font-size:11px;opacity:0.5;color:#ccc;}
+
+.cta{text-align:center;padding:65px 20px;}
+.cta h2{font-size:32px;font-weight:800;margin-bottom:10px;}
+.cta p{font-size:15px;margin-bottom:22px;opacity:0.95;}
+.cta-b{display:inline-block;background:#fff;color:#f0a500;padding:14px 35px;border-radius:50px;font-weight:bold;font-size:15px;transition:0.3s;}
+.cta-b:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.15);}
+
+.ctg{display:grid;grid-template-columns:1fr 1fr;gap:35px;}
+.ctl h3{font-size:24px;color:#1a1a2e;margin-bottom:10px;}
+.ctl>p{color:#888;margin-bottom:22px;font-size:14px;}
+.ci{display:flex;gap:12px;margin-bottom:18px;}
+.cii{width:45px;height:45px;background:rgba(240,165,0,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;transition:0.3s;}
+.ci:hover .cii{background:linear-gradient(135deg,#f0a500,#ff6b35);transform:scale(1.05);}
+.ci h4{font-size:14px;color:#1a1a2e;margin-bottom:2px;}
+.ci p{font-size:12px;color:#888;}
+.cform{background:#fff;padding:30px;border-radius:18px;box-shadow:0 10px 35px rgba(0,0,0,0.06);}
+.cform h3{font-size:18px;margin-bottom:18px;color:#1a1a2e;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fg{margin-bottom:12px;}
+.fg label{display:block;font-size:11px;font-weight:bold;color:#555;margin-bottom:4px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;border:2px solid #eee;border-radius:10px;font-size:13px;outline:none;font-family:inherit;transition:0.3s;background:#f9f9f9;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#f0a500;background:#fff;}
+.fg textarea{height:90px;resize:vertical;}
+.fbtn{width:100%;padding:13px;background:linear-gradient(135deg,#f0a500,#ff6b35);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:bold;cursor:pointer;transition:0.3s;font-family:inherit;}
+.fbtn:hover{opacity:0.9;}
+
+.footer{background:#060614;color:#999;padding:60px 20px 20px;}
+.ftg{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px;margin-bottom:30px;}
+.footer .logo{font-size:17px;display:block;margin-bottom:10px;color:#fff;}
+.footer p{font-size:12px;line-height:1.7;}
+.footer h4{color:#fff;font-size:14px;margin-bottom:12px;}
+.fl{list-style:none;}
+.fl li{margin-bottom:8px;}
+.fl a{color:#999;font-size:12px;transition:0.2s;}
+.fl a:hover{color:#f0a500;}
+.ftb{max-width:1100px;margin:0 auto;padding-top:15px;border-top:1px solid #222;text-align:center;font-size:11px;}
+.ftb b{color:#f0a500;}
+
+.wa-btn{position:fixed;bottom:20px;right:20px;width:55px;height:55px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;z-index:90;box-shadow:0 4px 18px rgba(37,211,102,0.4);animation:wap 2s infinite;}
+@keyframes wap{0%{box-shadow:0 0 0 0 rgba(37,211,102,0.5);}70%{box-shadow:0 0 0 15px rgba(37,211,102,0);}100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}}
+.call-fl{position:fixed;bottom:20px;left:20px;display:flex;align-items:center;gap:6px;background:#1a1a2e;border:2px solid #f0a500;color:#f0a500;padding:10px 16px;border-radius:50px;font-size:12px;font-weight:bold;z-index:90;transition:0.3s;box-shadow:0 4px 15px rgba(0,0,0,0.2);}
+.call-fl:hover{background:#f0a500;color:#fff;border-color:#f0a500;}
+
+/* CHATBOT */
+.chat-btn{position:fixed;bottom:85px;right:20px;width:55px;height:55px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;z-index:91;cursor:pointer;border:none;box-shadow:0 4px 20px rgba(102,126,234,0.4);transition:0.3s;animation:cbpulse 2.5s infinite;}
+.chat-btn:hover{transform:scale(1.1);}
+@keyframes cbpulse{0%{box-shadow:0 0 0 0 rgba(102,126,234,0.5);}70%{box-shadow:0 0 0 12px rgba(102,126,234,0);}100%{box-shadow:0 0 0 0 rgba(102,126,234,0);}}
+.chatbox{position:fixed;bottom:150px;right:20px;width:340px;height:460px;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.2);z-index:92;display:none;flex-direction:column;overflow:hidden;animation:chatIn 0.3s ease;}
+.chatbox.open{display:flex;}
+@keyframes chatIn{from{opacity:0;transform:translateY(20px) scale(0.95);}to{opacity:1;transform:translateY(0) scale(1);}}
+.cb-head{background:linear-gradient(135deg,#667eea,#764ba2);padding:16px 18px;display:flex;justify-content:space-between;align-items:center;color:#fff;}
+.cb-head-left{display:flex;align-items:center;gap:10px;}
+.cb-avatar{width:38px;height:38px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.cb-name{font-weight:bold;font-size:14px;}
+.cb-status{font-size:10px;opacity:0.8;}
+.cb-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:5px;}
+.cb-body{flex:1;overflow-y:auto;padding:15px;background:#f5f5f5;}
+.cb-msg{margin-bottom:12px;display:flex;}
+.cb-msg.bot{justify-content:flex-start;}
+.cb-msg.user{justify-content:flex-end;}
+.cb-bubble{max-width:80%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;animation:msgIn 0.3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.cb-msg.bot .cb-bubble{background:#fff;color:#333;border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.cb-msg.user .cb-bubble{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-bottom-right-radius:4px;}
+.cb-time{font-size:9px;opacity:0.5;margin-top:4px;}
+.cb-quick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.cb-qbtn{background:#fff;border:1px solid #ddd;padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer;transition:0.2s;font-family:inherit;color:#333;}
+.cb-qbtn:hover{background:#667eea;color:#fff;border-color:#667eea;}
+.cb-foot{padding:12px;background:#fff;border-top:1px solid #eee;display:flex;gap:8px;}
+.cb-input{flex:1;padding:10px 14px;border:2px solid #eee;border-radius:25px;font-size:13px;outline:none;font-family:inherit;transition:0.3s;}
+.cb-input:focus{border-color:#667eea;}
+.cb-send{width:40px;height:40px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;}
+.cb-send:hover{transform:scale(1.1);}
+.typing{display:flex;gap:4px;padding:8px 14px;background:#fff;border-radius:14px;border-bottom-left-radius:4px;width:fit-content;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.typing span{width:7px;height:7px;background:#999;border-radius:50%;animation:typA 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:0.2s;}
+.typing span:nth-child(3){animation-delay:0.4s;}
+@keyframes typA{0%,100%{opacity:0.3;transform:translateY(0);}50%{opacity:1;transform:translateY(-4px);}}
+
+@media(max-width:768px){
+.nav-call{display:none;}
+.hero h1{font-size:28px;}
+.hero p{font-size:14px;}
+.stats{gap:18px;}
+.stat h3{font-size:24px;}
+.sh h2{font-size:26px;}
+.ctg{grid-template-columns:1fr;}
+.ftg{grid-template-columns:1fr 1fr;}
+.fr{grid-template-columns:1fr;}
+.cta h2{font-size:24px;}
+.chatbox{width:300px;height:420px;right:10px;bottom:140px;}
+.gal-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){
+.hero h1{font-size:22px;}
+.stats{flex-direction:column;gap:8px;}
+.ftg{grid-template-columns:1fr;}
+.gal-grid{grid-template-columns:1fr;}
+.chatbox{width:calc(100% - 20px);right:10px;left:10px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="navbar">
+<div class="nav-box">
+<a href="#home" class="logo">✈️ KAURAV <b>TOURS</b></a>
+<div class="nav-right">
+<a href="tel:8305116508" class="nav-call">📞 8305116508</a>
+<button class="menu-btn" onclick="openSB()">☰ Menu</button>
+</div>
+</div>
+</nav>
+
+<div class="sidebar-bg" id="sbBg" onclick="closeSB()"></div>
+<div class="sidebar" id="sb">
+<div class="sb-top"><span>✈️ KAURAV <b>TOURS</b></span><button class="sb-x" onclick="closeSB()">✕</button></div>
+<ul class="sb-links">
+<li><a href="#home" onclick="closeSB()">🏠 Home</a></li>
+<li><a href="#services" onclick="closeSB()">⚙️ Services</a></li>
+<li><a href="#destinations" onclick="closeSB()">🌍 Destinations</a></li>
+<li><a href="#packages" onclick="closeSB()">📦 Packages</a></li>
+<li><a href="#gallery" onclick="closeSB()">📸 Gallery</a></li>
+<li><a href="#reviews" onclick="closeSB()">⭐ Reviews</a></li>
+<li><a href="#contact" onclick="closeSB()">📞 Contact</a></li>
+</ul>
+<div class="sb-info">
+<a href="tel:8305116508">📞 Call: 8305116508</a>
+<a href="https://wa.me/918305116508">💬 WhatsApp</a>
+<a href="mailto:info@kauravtours.com">📧 Email</a>
+</div>
+</div>
+
+<section class="hero" id="home">
+<div class="hero-bg">
+<div class="hc hc1"></div><div class="hc hc2"></div><div class="hc hc3"></div>
+<div class="star" style="top:10%;left:8%;animation-delay:0s;"></div>
+<div class="star" style="top:18%;left:28%;animation-delay:0.5s;"></div>
+<div class="star" style="top:12%;left:55%;animation-delay:1s;"></div>
+<div class="star" style="top:25%;left:78%;animation-delay:1.5s;"></div>
+<div class="star" style="top:40%;left:18%;animation-delay:0.8s;"></div>
+<div class="star" style="top:50%;left:65%;animation-delay:1.3s;"></div>
+<div class="star" style="top:60%;left:88%;animation-delay:0.3s;"></div>
+<div class="star" style="top:70%;left:35%;animation-delay:1.8s;"></div>
+</div>
+<div class="hero-content">
+<div class="hero-badge">🌍 Trusted Travel Partner Since 2016</div>
+<h1>Explore The World With<br><b>Kaurav Tour & Travel</b></h1>
+<p>Premium tour packages, best prices, and unforgettable experiences. Your dream vacation starts here!</p>
+<div class="hbtns">
+<a href="#packages" class="hb hb1">🗺️ View Packages</a>
+<a href="tel:8305116508" class="hb hb2">📞 Call: 8305116508</a>
+</div>
+<div class="stats">
+<div class="stat"><h3>10,000+</h3><p>Happy Travelers</p></div>
+<div class="stat"><h3>50+</h3><p>Destinations</p></div>
+<div class="stat"><h3>100+</h3><p>Packages</p></div>
+<div class="stat"><h3>8+</h3><p>Years Exp</p></div>
+</div>
+</div>
+</section>
+
+<div class="mq"><div class="mq-text">🏔️ Manali ₹4,999 &nbsp; 🏖️ Goa ₹5,999 &nbsp; 🕌 Rajasthan ₹7,499 &nbsp; 🏝️ Kerala ₹8,999 &nbsp; 🏯 Kashmir ₹9,999 &nbsp; 📞 Call: 8305116508 &nbsp;&nbsp;&nbsp; 🏔️ Manali ₹4,999 &nbsp; 🏖️ Goa ₹5,999 &nbsp; 🕌 Rajasthan ₹7,499 &nbsp; 🏝️ Kerala ₹8,999 &nbsp; 🏯 Kashmir ₹9,999 &nbsp; 📞 Call: 8305116508 &nbsp;&nbsp;&nbsp;</div></div>
+
+<section class="section gbg" id="services">
+<div class="container">
+<div class="sh anim"><small>What We Offer</small><h2>Our Premium Services</h2></div>
+<div class="g4">
+<div class="srv anim"><div class="ic">🚌</div><h3>Bus Booking</h3><p>AC & Non-AC luxury buses for groups.</p></div>
+<div class="srv anim"><div class="ic">🚗</div><h3>Car Rental</h3><p>Sedan, SUV with professional drivers.</p></div>
+<div class="srv anim"><div class="ic">✈️</div><h3>Flight Booking</h3><p>Best prices domestic & international.</p></div>
+<div class="srv anim"><div class="ic">🏨</div><h3>Hotel Booking</h3><p>Budget to 5-star luxury hotels.</p></div>
+<div class="srv anim"><div class="ic">🗺️</div><h3>Tour Packages</h3><p>Custom packages with meals & stays.</p></div>
+<div class="srv anim"><div class="ic">🎒</div><h3>Adventure Tours</h3><p>Trekking, rafting, paragliding.</p></div>
+<div class="srv anim"><div class="ic">💒</div><h3>Honeymoon</h3><p>Romantic packages for couples.</p></div>
+<div class="srv anim"><div class="ic">🛂</div><h3>Visa Help</h3><p>International visa processing.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="destinations">
+<div class="container">
+<div class="sh anim"><small>Explore</small><h2>Popular Destinations</h2></div>
+<div class="g3">
+<div class="dest d1 anim"><div class="dest-bg"></div><span class="em">🏔️</span><div class="dtag">Trending</div><div class="dbadge">⭐4.9</div><div class="dov"><h3>Manali</h3><p class="loc">📍Himachal Pradesh</p><div class="dbot"><span class="dpr">₹4,999</span><a href="tel:8305116508" class="dlink">Book</a></div></div></div>
+<div class="dest d2 anim"><div class="dest-bg"></div><span class="em">🏖️</span><div class="dtag">Popular</div><div class="dbadge">⭐4.8</div><div class="dov"><h3>Goa</h3><p class="loc">📍Beach Paradise</p><div class="dbot"><span class="dpr">₹5,999</span><a href="tel:8305116508" class="dlink">Book</a></div></div></div>
+<div class="dest d3 anim"><div class="dest-bg"></div><span class="em">🕌</span><div class="dtag">Heritage</div><div class="dbadge">⭐4.7</div><div class="dov"><h3>Rajasthan</h3><p class="loc">📍Jaipur-Udaipur</p><div class="dbot"><span class="dpr">₹7,499</span><a href="tel:8305116508" class="dlink">Book</a></div></div></div>
+<div class="dest d4 anim"><div class="dest-bg"></div><span class="em">🏝️</span><div class="dtag">Must Visit</div><div class="dbadge">⭐4.9</div><div class="dov"><h3>Kerala</h3><p class="loc">📍God's Own Country</p><div class="dbot"><span class="dpr">₹8,999</span><a href="tel:8305116508" class="dlink">Book</a></div></div></div>
+<div class="dest d5 anim"><div class="dest-bg"></div><span class="em">🏯</span><div class="dtag">Paradise</div><div class="dbadge">⭐4.8</div><div class="dov"><h3>Kashmir</h3><p class="loc">📍Heaven on Earth</p><div class="dbot"><span class="dpr">₹9,999</span><a href="tel:8305116508" class="dlink">Book</a></div></div></div>
+<div class="dest d6 anim"><div class="dest-bg"></div><span class="em">🗻</span><div class="dtag">Classic</div><div class="dbadge">⭐4.7</div><div class="dov"><h3>Shimla</h3><p class="loc">📍Queen of Hills</p><div class="dbot"><span class="dpr">₹3,999</span><a href="tel:8305116508" class="dlink">Book</a></div></div></div>
+</div>
+</div>
+</section>
+
+<section class="section gbg" id="packages">
+<div class="container">
+<div class="sh anim"><small>Best Value</small><h2>Tour Packages</h2></div>
+<div class="g3">
+<div class="pkg anim">
+<div class="ptop"><small>🌟 Budget</small><span class="pprice">₹4,999</span><h3>Silver Package</h3><p>Shimla-Manali 4N/5D</p></div>
+<div class="pbody"><ul><li>✅ 4 Nights Hotel</li><li>✅ Daily Breakfast</li><li>✅ AC Transport</li><li>✅ Sightseeing</li><li>✅ Toll & Parking</li><li>✅ 24/7 Support</li></ul><button class="pbtn" onclick="book('Silver-Shimla Manali ₹4,999')">Book Now →</button></div>
+</div>
+<div class="pkg anim">
+<div class="ptop"><small>🔥 Popular</small><span class="pprice">₹9,999</span><h3>Gold Package</h3><p>Goa Beach 5N/6D</p></div>
+<div class="pbody"><ul><li>✅ 5 Nights Resort</li><li>✅ Breakfast+Dinner</li><li>✅ Airport Transfer</li><li>✅ North+South Goa</li><li>✅ Water Sports</li><li>✅ Cruise Dinner</li></ul><button class="pbtn" onclick="book('Gold-Goa ₹9,999')">Book Now →</button></div>
+</div>
+<div class="pkg anim">
+<div class="ptop"><small>💎 Premium</small><span class="pprice">₹15,999</span><h3>Platinum Package</h3><p>Kerala 6N/7D</p></div>
+<div class="pbody"><ul><li>✅ 6 Nights Luxury</li><li>✅ All Meals</li><li>✅ Houseboat Stay</li><li>✅ Private Car</li><li>✅ Spa Session</li><li>✅ Tour Guide</li></ul><button class="pbtn" onclick="book('Platinum-Kerala ₹15,999')">Book Now →</button></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+<div class="sh anim"><small>Why Us</small><h2>Why Choose Kaurav Tours?</h2></div>
+<div class="g4">
+<div class="why anim"><div class="wic">💰</div><h3>Best Price</h3><p>No hidden charges.</p></div>
+<div class="why anim"><div class="wic">🛡️</div><h3>100% Safe</h3><p>Verified & insured.</p></div>
+<div class="why anim"><div class="wic">📞</div><h3>24/7 Support</h3><p>Call 8305116508</p></div>
+<div class="why anim"><div class="wic">⭐</div><h3>10K+ Happy</h3><p>Trusted by thousands.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section gbg" id="gallery">
+<div class="container">
+<div class="sh anim"><small>Gallery</small><h2>Travel Memories</h2></div>
+<div class="gal-grid">
+<div class="gal ga1 anim"><div class="gal-bg"><span class="gal-em">🏔️</span></div><span class="gal-lb">Mountains</span></div>
+<div class="gal ga2 anim"><div class="gal-bg"><span class="gal-em">🏖️</span></div><span class="gal-lb">Beaches</span></div>
+<div class="gal ga3 anim"><div class="gal-bg"><span class="gal-em">🌊</span></div><span class="gal-lb">Water Sports</span></div>
+<div class="gal ga4 anim"><div class="gal-bg"><span class="gal-em">🌅</span></div><span class="gal-lb">Sunsets</span></div>
+<div class="gal ga5 anim"><div class="gal-bg"><span class="gal-em">🏕️</span></div><span class="gal-lb">Camping</span></div>
+<div class="gal ga6 anim"><div class="gal-bg"><span class="gal-em">🛕</span></div><span class="gal-lb">Heritage</span></div>
+</div>
+</div>
+</section>
+
+<section class="section dbg" id="reviews">
+<div class="container">
+<div class="sh anim"><small>Testimonials</small><h2>What Travelers Say</h2></div>
+<div class="g3">
+<div class="rev anim"><div class="stars">★★★★★</div><p class="qt">"Amazing Manali trip! Everything perfect. Best travel agency!"</p><div class="rauth"><div class="rav">R</div><div><div class="rname">Rajesh Kumar</div><div class="rtrip">Manali - Family</div></div></div></div>
+<div class="rev anim"><div class="stars">★★★★★</div><p class="qt">"Best Goa vacation! Resort was beautiful. Highly recommended!"</p><div class="rauth"><div class="rav">P</div><div><div class="rname">Priya Sharma</div><div class="rtrip">Goa - Friends</div></div></div></div>
+<div class="rev anim"><div class="stars">★★★★★</div><p class="qt">"Kerala honeymoon was magical! Houseboat stay unforgettable!"</p><div class="rauth"><div class="rav">A</div><div><div class="rname">Amit & Neha</div><div class="rtrip">Kerala - Honeymoon</div></div></div></div>
+</div>
+</div>
+</section>
+
+<section class="goldbg cta">
+<h2>Ready For Adventure? 🌍</h2>
+<p>Special discounts on group bookings!</p>
+<a href="tel:8305116508" class="cta-b">📞 Call: 8305116508</a>
+</section>
+
+<section class="section gbg" id="contact">
+<div class="container">
+<div class="sh anim"><small>Contact</small><h2>Book Your Trip</h2></div>
+<div class="ctg">
+<div class="ctl anim">
+<h3>Let's Plan Your Trip! ✈️</h3>
+<p>Call or fill form for instant booking.</p>
+<div class="ci"><div class="cii">📍</div><div><h4>Office</h4><p>Main Market, Near Bus Stand</p></div></div>
+<div class="ci"><div class="cii">📞</div><div><h4>Phone</h4><p style="color:#f0a500;font-weight:bold;font-size:15px;">8305116508</p></div></div>
+<div class="ci"><div class="cii">📧</div><div><h4>Email</h4><p>info@kauravtourandtravel.com</p></div></div>
+<div class="ci"><div class="cii">⏰</div><div><h4>Hours</h4><p>Mon-Sat 9AM-9PM | Sun 10AM-6PM</p></div></div>
+</div>
+<form class="cform anim" onsubmit="sendF(event)">
+<h3>📝 Quick Inquiry</h3>
+<div class="fr"><div class="fg"><label>Name *</label><input required placeholder="Your Name"></div><div class="fg"><label>Phone *</label><input required placeholder="Phone Number" type="tel"></div></div>
+<div class="fg"><label>Email</label><input placeholder="Email" type="email"></div>
+<div class="fr"><div class="fg"><label>Destination</label><select><option>Select</option><option>Manali</option><option>Goa</option><option>Rajasthan</option><option>Kerala</option><option>Kashmir</option><option>Shimla</option><option>Other</option></select></div><div class="fg"><label>Travelers</label><select><option>Select</option><option>1-2</option><option>3-5</option><option>6-10</option><option>10+</option></select></div></div>
+<div class="fg"><label>Message</label><textarea placeholder="Your travel plans..."></textarea></div>
+<button type="submit" class="fbtn">🚀 Send Inquiry</button>
+</form>
+</div>
+</div>
+</section>
+
+<footer class="footer">
+<div class="ftg">
+<div><a href="#" class="logo">✈️ KAURAV <b>TOURS</b></a><p>Your trusted travel partner for unforgettable journeys.</p></div>
+<div><h4>Links</h4><ul class="fl"><li><a href="#home">Home</a></li><li><a href="#services">Services</a></li><li><a href="#destinations">Destinations</a></li><li><a href="#packages">Packages</a></li><li><a href="#contact">Contact</a></li></ul></div>
+<div><h4>Destinations</h4><ul class="fl"><li><a href="#">Manali</a></li><li><a href="#">Goa</a></li><li><a href="#">Rajasthan</a></li><li><a href="#">Kerala</a></li><li><a href="#">Kashmir</a></li></ul></div>
+<div><h4>Contact</h4><p>📞 <b style="color:#f0a500">8305116508</b></p><p style="margin-top:5px;">📧 info@kauravtourandtravel.com</p><p style="margin-top:5px;">📍 Main Market, Bus Stand</p></div>
+</div>
+<div class="ftb">© 2024 <b>Kaurav Tour & Travel</b>. All Rights Reserved.</div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<a href="https://wa.me/918305116508?text=Hello! I want to book a tour." class="wa-btn" target="_blank">💬</a>
+<a href="tel:8305116508" class="call-fl">📞 8305116508</a>
+
+<!-- CHATBOT -->
+<button class="chat-btn" id="chatBtn" onclick="toggleChat()">🤖</button>
+<div class="chatbox" id="chatbox">
+<div class="cb-head">
+<div class="cb-head-left"><div class="cb-avatar">🤖</div><div><div class="cb-name">Kaurav AI Assistant</div><div class="cb-status">🟢 Online</div></div></div>
+<button class="cb-close" onclick="toggleChat()">✕</button>
+</div>
+<div class="cb-body" id="chatBody"></div>
+<div class="cb-foot">
+<input class="cb-input" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter')sendChat()">
+<button class="cb-send" onclick="sendChat()">➤</button>
+</div>
+</div>
+
+<script>
+// SIDEBAR
+function openSB(){document.getElementById('sb').classList.add('open');document.getElementById('sbBg').classList.add('open');}
+function closeSB(){document.getElementById('sb').classList.remove('open');document.getElementById('sbBg').classList.remove('open');}
+
+// BOOK
+function book(n){window.open('https://wa.me/918305116508?text='+encodeURIComponent('Hi! I want to book: '+n),'_blank');}
+function sendF(e){e.preventDefault();window.open('https://wa.me/918305116508?text='+encodeURIComponent('Hi! I submitted inquiry on website.'),'_blank');e.target.reset();}
+
+// SCROLL ANIMATION
+function checkAnim(){
+var els=document.querySelectorAll('.anim');
+els.forEach(function(el){
+var top=el.getBoundingClientRect().top;
+if(top<window.innerHeight-60){el.classList.add('show');}
+});
+}
+window.addEventListener('scroll',checkAnim);
+window.addEventListener('load',checkAnim);
+
+// NAVBAR
+window.addEventListener('scroll',function(){
+var n=document.getElementById('navbar');
+if(window.scrollY>50){n.style.boxShadow='0 4px 20px rgba(0,0,0,0.3)';}
+else{n.style.boxShadow='none';}
+});
+
+// CHATBOT
+var chatOpen=false;
+var chatStarted=false;
+function toggleChat(){
+chatOpen=!chatOpen;
+var box=document.getElementById('chatbox');
+if(chatOpen){box.classList.add('open');if(!chatStarted){startChat();chatStarted=true;}}
+else{box.classList.remove('open');}
+}
+
+function startChat(){
+addBot("Namaste! 🙏 Welcome to <b>Kaurav Tour & Travel</b>!");
+setTimeout(function(){addBot("I'm your AI travel assistant. How can I help you today?");},800);
+setTimeout(function(){showQuick(["Tour Packages 📦","Destinations 🌍","Prices 💰","Book Now 📞","Contact Info 📱"]);},1500);
+}
+
+function addBot(msg){
+var d=document.getElementById('chatBody');
+var div=document.createElement('div');
+div.className='cb-msg bot';
+div.innerHTML='<div class="cb-bubble">'+msg+'<div class="cb-time">'+getTime()+'</div></div>';
+d.appendChild(div);
+d.scrollTop=d.scrollHeight;
+}
+
+function addUser(msg){
+var d=document.getElementById('chatBody');
+var div=document.createElement('div');
+div.className='cb-msg user';
+div.innerHTML='<div class="cb-bubble">'+msg+'<div class="cb-time">'+getTime()+'</div></div>';
+d.appendChild(div);
+d.scrollTop=d.scrollHeight;
+}
+
+function showTyping(){
+var d=document.getElementById('chatBody');
+var div=document.createElement('div');
+div.className='cb-msg bot';
+div.id='typing';
+div.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+d.appendChild(div);
+d.scrollTop=d.scrollHeight;
+}
+
+function hideTyping(){var t=document.getElementById('typing');if(t)t.remove();}
+
+function showQuick(opts){
+var d=document.getElementById('chatBody');
+var div=document.createElement('div');
+div.className='cb-quick';
+div.id='quickBtns';
+opts.forEach(function(o){
+var b=document.createElement('button');
+b.className='cb-qbtn';
+b.textContent=o;
+b.onclick=function(){removeQuick();processMsg(o);};
+div.appendChild(b);
+});
+d.appendChild(div);
+d.scrollTop=d.scrollHeight;
+}
+
+function removeQuick(){var q=document.getElementById('quickBtns');if(q)q.remove();}
+
+function sendChat(){
+var input=document.getElementById('chatInput');
+var msg=input.value.trim();
+if(!msg)return;
+addUser(msg);
+input.value='';
+removeQuick();
+showTyping();
+setTimeout(function(){hideTyping();processMsg(msg);},1000+Math.random()*500);
+}
+
+function processMsg(msg){
+var m=msg.toLowerCase();
+var reply='';
+
+if(m.includes('package')||m.includes('tour')||m.includes('plan')){
+reply="Great! 🎉 Here are our top packages:<br><br>🌟 <b>Silver</b> - Shimla-Manali 4N/5D - <b>₹4,999</b>/person<br>🔥 <b>Gold</b> - Goa Beach 5N/6D - <b>₹9,999</b>/person<br>💎 <b>Platinum</b> - Kerala 6N/7D - <b>₹15,999</b>/person<br><br>Which one interests you? 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Silver ₹4,999","Gold ₹9,999","Platinum ₹15,999","Custom Package"]);},500);
+}
+else if(m.includes('destination')||m.includes('place')||m.includes('where')||m.includes('kaha')){
+reply="🌍 Our popular destinations:<br><br>🏔️ <b>Manali</b> - from ₹4,999<br>🏖️ <b>Goa</b> - from ₹5,999<br>🕌 <b>Rajasthan</b> - from ₹7,499<br>🏝️ <b>Kerala</b> - from ₹8,999<br>🏯 <b>Kashmir</b> - from ₹9,999<br>🗻 <b>Shimla</b> - from ₹3,999<br><br>Where would you like to go? 🗺️";
+addBot(reply);
+setTimeout(function(){showQuick(["Manali","Goa","Kashmir","Kerala","Other"]);},500);
+}
+else if(m.includes('price')||m.includes('cost')||m.includes('kitna')||m.includes('rate')||m.includes('budget')){
+reply="💰 Our prices start from just <b>₹3,999/person</b>!<br><br>Budget: ₹3,999 - ₹6,999<br>Standard: ₹7,000 - ₹12,000<br>Premium: ₹12,000 - ₹20,000<br>Luxury: ₹20,000+<br><br>All inclusive with hotel, transport, meals & sightseeing! What's your budget? 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Under ₹5,000","₹5,000-₹10,000","₹10,000-₹20,000","₹20,000+"]);},500);
+}
+else if(m.includes('book')||m.includes('reserve')){
+reply="📞 Awesome! Let's book your trip!<br><br>You can:<br>1️⃣ <b>Call us:</b> 8305116508<br>2️⃣ <b>WhatsApp:</b> 8305116508<br>3️⃣ Fill the <b>contact form</b> below<br><br>Our team will confirm within 30 minutes! 🚀";
+addBot(reply);
+setTimeout(function(){showQuick(["Call Now 📞","WhatsApp 💬","Go to Form 📝"]);},500);
+}
+else if(m.includes('contact')||m.includes('phone')||m.includes('number')||m.includes('call')){
+reply="📱 Contact Details:<br><br>📞 <b>Phone:</b> 8305116508<br>💬 <b>WhatsApp:</b> 8305116508<br>📧 <b>Email:</b> info@kauravtourandtravel.com<br>⏰ <b>Hours:</b> Mon-Sat 9AM-9PM<br><br>Feel free to call anytime! 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Call Now 📞","WhatsApp 💬","More Help"]);},500);
+}
+else if(m.includes('manali')){
+reply="🏔️ <b>Manali Package:</b><br><br>📅 4 Nights / 5 Days<br>🏨 Hotel + Breakfast<br>🚗 AC Transport<br>👀 Rohtang, Solang, Mall Road<br>💰 <b>₹4,999/person</b><br><br>Best time: Oct-Feb (Snow) ❄️<br>Shall I book this? 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Manali","Other Packages","Call Us"]);},500);
+}
+else if(m.includes('goa')){
+reply="🏖️ <b>Goa Package:</b><br><br>📅 5 Nights / 6 Days<br>🏨 Beach Resort<br>🍽️ Breakfast + Dinner<br>👀 North+South Goa, Water Sports<br>💰 <b>₹9,999/person</b><br><br>Best time: Nov-Feb 🌴<br>Want to book? 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Goa","Other Packages","Call Us"]);},500);
+}
+else if(m.includes('kashmir')){
+reply="🏯 <b>Kashmir Package:</b><br><br>📅 5 Nights / 6 Days<br>🏨 Houseboat + Hotel<br>🍽️ All Meals<br>👀 Dal Lake, Gulmarg, Pahalgam<br>💰 <b>₹9,999/person</b><br><br>Paradise on Earth! ❄️<br>Shall I book? 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Kashmir","Other Packages","Call Us"]);},500);
+}
+else if(m.includes('kerala')){
+reply="🏝️ <b>Kerala Package:</b><br><br>📅 6 Nights / 7 Days<br>🏨 Luxury Hotels + Houseboat<br>🍽️ All Meals<br>👀 Munnar, Alleppey, Kovalam<br>💰 <b>₹15,999/person</b><br><br>God's Own Country! 🌴<br>Book now? 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Kerala","Other Packages","Call Us"]);},500);
+}
+else if(m.includes('silver')){
+reply="🌟 <b>Silver Package - Shimla Manali</b><br>4N/5D | ₹4,999/person<br><br>Perfect for budget travelers!<br>Call <b>8305116508</b> to book! 📞";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Now 📞","WhatsApp 💬","Other Packages"]);},500);
+}
+else if(m.includes('gold')){
+reply="🔥 <b>Gold Package - Goa Beach</b><br>5N/6D | ₹9,999/person<br><br>Most popular package!<br>Call <b>8305116508</b> to book! 📞";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Now 📞","WhatsApp 💬","Other Packages"]);},500);
+}
+else if(m.includes('platinum')){
+reply="💎 <b>Platinum Package - Kerala</b><br>6N/7D | ₹15,999/person<br><br>Ultimate luxury experience!<br>Call <b>8305116508</b> to book! 📞";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Now 📞","WhatsApp 💬","Other Packages"]);},500);
+}
+else if(m.includes('custom')){
+reply="🎨 Great! We can create a <b>custom package</b> just for you!<br><br>Please share:<br>1. Destination<br>2. Number of days<br>3. Budget<br>4. Number of travelers<br><br>Or call <b>8305116508</b> for instant planning! 📞";
+addBot(reply);
+setTimeout(function(){showQuick(["Call Now 📞","WhatsApp 💬"]);},500);
+}
+else if(m.includes('whatsapp')){
+window.open('https://wa.me/918305116508?text=Hello! I need help with booking.','_blank');
+addBot("Opening WhatsApp... 💬<br>Our team will reply instantly!");
+}
+else if(m.includes('call now')){
+window.open('tel:8305116508');
+addBot("Calling 8305116508... 📞<br>Our team is ready to help!");
+}
+else if(m.includes('form')){
+document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+addBot("Scrolling to contact form... 📝<br>Please fill your details!");
+}
+else if(m.includes('hi')||m.includes('hello')||m.includes('hey')||m.includes('namaste')){
+reply="Namaste! 🙏😊 Welcome to Kaurav Tours!<br>How can I help you plan your dream trip?";
+addBot(reply);
+setTimeout(function(){showQuick(["Tour Packages 📦","Destinations 🌍","Prices 💰","Book Now 📞"]);},500);
+}
+else if(m.includes('thank')||m.includes('dhanyavad')||m.includes('shukriya')){
+reply="You're welcome! 😊🙏<br>Happy to help! Have a wonderful trip!<br><br>📞 Call anytime: <b>8305116508</b>";
+addBot(reply);
+}
+else if(m.includes('honeymoon')){
+reply="💒 <b>Honeymoon Special Packages:</b><br><br>💕 Kerala - ₹15,999/couple<br>💕 Goa - ₹12,999/couple<br>💕 Kashmir - ₹14,999/couple<br>💕 Manali - ₹9,999/couple<br><br>Includes candle-light dinner! 🕯️<br>Which one for you? 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Kerala Honeymoon","Goa Honeymoon","Kashmir Honeymoon","Call Us"]);},500);
+}
+else if(m.includes('more help')||m.includes('help')){
+reply="Sure! I can help with:<br><br>📦 Tour Packages<br>🌍 Destinations<br>💰 Prices & Budget<br>📞 Booking<br>💒 Honeymoon<br>🎒 Adventure Tours<br><br>What would you like to know? 😊";
+addBot(reply);
+setTimeout(function(){showQuick(["Packages 📦","Destinations 🌍","Honeymoon 💒","Adventure 🎒","Call Us 📞"]);},500);
+}
+else if(m.includes('adventure')){
+reply="🎒 <b>Adventure Tours:</b><br><br>⛰️ Trekking in Manali<br>🌊 River Rafting in Rishikesh<br>🪂 Paragliding in Bir Billing<br>🏕️ Camping in Shimla<br>🐘 Wildlife Safari<br><br>Starting from <b>₹2,999</b>!<br>Call <b>8305116508</b> 📞";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Adventure","Other Packages","Call Us"]);},500);
+}
+else if(m.includes('under')||m.includes('5000')||m.includes('5,000')){
+reply="💰 <b>Budget Packages (Under ₹5,000):</b><br><br>🗻 Shimla 2N/3D - ₹3,999<br>🏔️ Manali 4N/5D - ₹4,999<br>⛰️ Mussoorie 2N/3D - ₹3,499<br><br>All inclusive! Call <b>8305116508</b> 📞";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Now 📞","More Options","WhatsApp 💬"]);},500);
+}
+else if(m.includes('10,000')||m.includes('10000')){
+reply="💰 <b>Standard Packages (₹5K-₹10K):</b><br><br>🏖️ Goa 5N/6D - ₹9,999<br>🕌 Rajasthan 4N/5D - ₹7,499<br>🏝️ Andaman 4N/5D - ₹8,999<br><br>Best value! Call <b>8305116508</b> 📞";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Now 📞","Premium Options","WhatsApp 💬"]);},500);
+}
+else if(m.includes('20,000')||m.includes('20000')||m.includes('premium')||m.includes('luxury')){
+reply="💎 <b>Premium/Luxury Packages:</b><br><br>🏝️ Kerala Luxury 6N/7D - ₹15,999<br>🏯 Kashmir Premium 5N/6D - ₹18,999<br>🌴 Andaman Luxury 5N/6D - ₹22,999<br><br>VIP treatment! Call <b>8305116508</b> 📞";
+addBot(reply);
+setTimeout(function(){showQuick(["Book Now 📞","WhatsApp 💬","Custom Plan"]);},500);
+}
+else{
+reply="Thanks for your message! 😊<br><br>For the best assistance, you can:<br>📞 <b>Call:</b> 8305116508<br>💬 <b>WhatsApp:</b> 8305116508<br><br>Or ask me about packages, destinations, or prices!";
+addBot(reply);
+setTimeout(function(){showQuick(["Tour Packages 📦","Destinations 🌍","Prices 💰","Call Us 📞"]);},500);
+}
+}
+
+function getTime(){var d=new Date();var h=d.getHours();var m=d.getMinutes();var ap=h>=12?'PM':'AM';h=h%12;h=h?h:12;m=m<10?'0'+m:m;return h+':'+m+' '+ap;}
+
+// Auto open chatbot after 5 seconds
+setTimeout(function(){
+if(!chatOpen){
+document.getElementById('chatBtn').style.animation='none';
+document.getElementById('chatBtn').style.transform='scale(1.2)';
+setTimeout(function(){document.getElementById('chatBtn').style.transform='scale(1)';document.getElementById('chatBtn').style.animation='cbpulse 2.5s infinite';},300);
+}
+},5000);
+</script>
+</body>
+</html>
